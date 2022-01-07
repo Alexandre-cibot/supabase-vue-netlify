@@ -1,0 +1,2 @@
+[build]
+  command = "cd ./netlify/functions && npm i && cd ../../"
