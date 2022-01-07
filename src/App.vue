@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import TodoList from './components/TodoList'
 
 export default {
@@ -14,15 +15,11 @@ export default {
   },
   data() {
     return {
-      list: [
-        {
-          id: 1,
-          created_at: '2022-01-07T10:53:03+00:00',
-          title: 'Titre 1 ',
-          content: 'Ma description'
-        }
-      ]
+      list: []
     }
+  },
+  async created() {
+    this.list = await (axios.get('.netlify/functions/getNotes')).then(res => res.data)    
   }
 }
 </script>
