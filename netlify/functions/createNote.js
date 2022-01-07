@@ -1,4 +1,3 @@
-require('dotenv').config()
 const {
   SUPABASE_URL,
   SUPABASE_KEY,
