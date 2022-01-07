@@ -1,23 +1,29 @@
 # supabase-vue-netlify
 
+Basic JAMSTACK Todolist using: 
+- Vuejs, Tailwindcss on frontend
+- Netlify functions as an SaaS API
+- Supabase as an SaaS DB
+- Netlify for CI/CD server and handle env variables.
+
 ## Project setup
 ```
-yarn install
+npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+netlify dev // needs netlify cli, to handle netlify functions on local env.
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+npm build
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+npm lint
 ```
 
 ### Customize configuration
