@@ -9,17 +9,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in list" :key="todo.id" class="ac-row relative hover:bg-gray-100 cursor-pointer">
+        <tr v-for="todo in list" :key="todo.id" class="ac-row relative cursor-pointer" :class="{'bg-yellow-200' : todo.id === updateId, 'hover:bg-gray-100' :  todo.id !== updateId}">
           <td v-for="(element, index) in header" :key="index" class="p-4">
             <span v-if="element === 'created_at'">
               {{new Date(todo[element]).toLocaleString()}}
             </span>
-            <span v-else>
+            <span v-else-if="todo.id !== updateId">
               {{todo[element]}}
             </span>
+            <input v-else type="text" v-model="updateRowData[element]" class="p-2">
           </td>
           <div  class="ac-edition-block hidden hover:flex absolute -right-24 h-full px-4 space-x-4 ">
-            <button>
+            <button @click="setUpdate(todo.id)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
@@ -43,7 +44,31 @@
         </tr>
       </tbody>
     </table>
-    <template v-if="!newRow">
+    <template v-if="updateId">
+      <button @click="handleUpdateRow" class="px-3 py-2 rounded-md bg-yellow-400 text-white font-semibold mx-3 mt-5">
+        <div class="flex items-center">
+           <span class="mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </span>
+          <span>Mettre à jour</span>
+        </div>
+      </button>
+      <button @click="updateId=null" class=" px-3 py-2 rounded-md bg-red-500 text-white font-semibold mx-3 mt-5">
+        <div class="flex items-center">
+          <span class="mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </span>
+          <span>
+            Annuler
+          </span>
+        </div>
+      </button>
+    </template>
+    <template v-else-if="!newRow">
       <button @click="newRow = true" class="px-3 py-2 rounded-md bg-green-500 text-white font-semibold mx-3 mt-5">
         <div class="flex items-center">
         <span class="mr-2">
@@ -95,7 +120,9 @@ export default {
   data() {
     return {
       newRow: false,
-      newRowData: {}
+      newRowData: {},
+      updateId: null,
+      updateRowData: {}
     }
   },
   computed: {
@@ -116,6 +143,18 @@ export default {
       this.newRow = false
       this.newRowData = {}
     },
+    setUpdate(id) {
+      this.updateId = id
+      this.updateRowData = this.list.find(todo => todo.id === id)
+    },
+    handleUpdateRow() {
+      this.$emit('update', this.updateRowData)
+      this.resetUpdate()
+    },
+    resetUpdate() {
+      this.updateId = null
+      this.updateRowData = {}
+    }
   }
 }
 </script>

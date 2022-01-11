@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TodoList :list="list" @send="sendNewRow" @delete="deleteRow"/>
+    <TodoList :list="list" @send="sendNewRow" @delete="deleteRow" @update="updateRow"/>
     
   </div>
 </template>
@@ -40,6 +40,16 @@ export default {
       axios.get('.netlify/functions/deleteNote', {params: {id: rowId}})
       .then(res => {
         console.log('res', res)
+        this.fetchList()
+      })
+      .catch(e => {
+        console.warn('Errorr', e)
+      })
+    },
+    updateRow(row) {
+      axios.get('.netlify/functions/updateNote', {params: row})
+       .then(res => {
+        console.log('res', res)  
         this.fetchList()
       })
       .catch(e => {
