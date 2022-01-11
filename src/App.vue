@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Ceci est une todolist</h1>
     <TodoList :list="list" @send="sendNewRow" @delete="deleteRow" @update="updateRow"/>
     
   </div>
