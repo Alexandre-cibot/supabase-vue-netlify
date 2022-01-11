@@ -12,7 +12,8 @@
         <tr v-for="todo in list" :key="todo.id" class="ac-row relative cursor-pointer" :class="{'bg-yellow-200' : todo.id === updateId, 'hover:bg-gray-100' :  todo.id !== updateId}">
           <td v-for="(element, index) in header" :key="index" class="p-4">
             <span v-if="element === 'created_at'">
-              {{new Date(todo[element]).toLocaleString()}}
+              <!-- {{new Date(todo[element]).toLocaleString()}} -->
+              {{$dayjs(todo[element]).locale('fr').format('LL à LT')}}
             </span>
             <span v-else-if="todo.id !== updateId">
               {{todo[element]}}
@@ -110,6 +111,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'TodoList',
   props: {
