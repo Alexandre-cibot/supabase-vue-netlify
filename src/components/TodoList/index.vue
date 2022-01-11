@@ -35,7 +35,8 @@
         <tr v-if="newRow">
           <td v-for="(element, index) in header" :key="index" class="p-4">
             <input
-              :disabled="['created_at', 'id'].includes(element)"
+              :disabled="isHiddenKey(element)"
+              :class="{'hidden': isHiddenKey(element)}"
               type="text"
               v-model="newRowData[element]"
               class="border"
@@ -135,6 +136,9 @@ export default {
     }
   },
   methods: {
+    isHiddenKey(key) {
+      return ['created_at', 'id'].includes(key)
+    },
     handleSendRow() {
       this.$emit('send', this.newRowData)
       this.resetNewRow()
